@@ -1,1 +1,45 @@
 /* You can add global styles to this file, and also import other style files */
+
+@main-color: black;
+@fail-color: #ff3860;
+@win-color: #23d160;
+@table-border-color: #dbdbdb;
+@table-border: 1px solid @table-border-color;
+
+.container {
+    padding: 50px;
+}
+
+.battleship-tile {
+    color: @main-color;
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.win {
+    background-color: @win-color;
+    color: white;
+}
+
+.fail {
+    background-color: @fail-color;
+    color: white;
+}
+
+
+.content {
+    table {
+        width: 80%;
+        td, th {
+            border: @table-border;
+            padding: 0.5em 0.75em;
+            vertical-align: middle;
+            height: 50px;
+            text-align: center;
+        }
+        tr:hover {
+            background-color: transparent;
+        }
+    }
+}

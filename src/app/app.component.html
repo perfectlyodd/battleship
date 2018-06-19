@@ -1,5 +1,80 @@
+<div class="section">
+  <div class="container">
+    <div class="content">
+      <h1 class="title">BATTLESHIP!!!</h1>
+      <h6 class="subtitle is-6"><strong>Pusher Battleship Demo</strong></h6>
+      <hr>
+
+      <section *ngIf="winner" class="notification is-success has-text-centered" style="color:white">
+        <h1>Player {{ winner.player.id }} has won!</h1>
+        <h5>Click <a href="{{ gameUrl }}">here</a> to start a new game.</h5>
+      </section>
+
+      <div *ngIf="players < 2">
+        <h2>Waiting for second user to join...</h2>
+        <h3 class="subtitle is-6">You can invite them with this link: {{ gameUrl }}?id={{ gameId }}.  You can also open <a href="{{ gameUrl }}?id={{ gameId }}" target="_blank">this link</a> in a new browser to play solo.</h3>
+      </div>
+
+      <div class="columns" *ngIf="validPlayer">
+        <div class="column has-text-centered" *ngFor="let boards of boards; let i = index">
+          <h5>
+            PLAYER {{ board.player.id }} <span class="tag is-info" *ngIf="i == player">You</span>
+            // <strong>SCORE: {{ board.player.score }}</strong>
+          </h5>
+          <table class="is-bordered" [style.opacity] = "i == player ? 0.5 : 1">
+            <tr *ngFor = "let row of board.tiles; let j = index">
+              <td *ngFor = "let col of row; let k = index"
+                  (click) = "fireTorpedo($event)"
+                  [style.background-color] = "col.used ? '' : 'transparent'"
+                  [class.win] = "col.status == 'win'"
+                  [class.fail] = "col.status !== 'win'"
+                  class="battleship-tile"
+                  id="t{{i}}{{j}}{{k}}">
+                {{ col.value == "X" ? "X" : "D" }}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="has-text-centered">
+        <span class="tag is-warning" *ngIf="canPlay">Your turn!</span>
+        <span class="tag is-danger" *ngIf="!canPlay">Other player's turn</span>
+        <h5 class="title"><small>{{ players }} player(s) in game</small></h5>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
+<!-- <div style="text-align:center">
   <h1>
     Welcome to {{ title }}!
   </h1>
@@ -16,5 +91,5 @@
   <li>
     <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
   </li>
-</ul>
+</ul> -->
 
