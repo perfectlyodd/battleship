@@ -2,6 +2,7 @@
   <div class="container">
     <div class="content">
       <h1 class="title">BATTLESHIP!!!</h1>
+      <h3 class="debug">{{ messageString }}</h3>
       <h6 class="subtitle is-6"><strong>Pusher Battleship Demo</strong></h6>
       <hr>
 
@@ -16,7 +17,7 @@
       </div>
 
       <div class="columns" *ngIf="validPlayer">
-        <div class="column has-text-centered" *ngFor="let boards of boards; let i = index">
+        <div class="column has-text-centered" *ngFor="let board of boards; let i = index">
           <h5>
             PLAYER {{ board.player.id }} <span class="tag is-info" *ngIf="i == player">You</span>
             // <strong>SCORE: {{ board.player.score }}</strong>
