@@ -27,13 +27,14 @@
               <td *ngFor = "let col of row; let k = index"
                   (click) = "fireTorpedo($event)"
                   [style.background-color] = "col.used ? '' : 'transparent'"
+                  [style.color] = "'black'"
                   [class.win] = "col.status == 'win'"
                   [class.fail] = "col.status !== 'win'"
                   class="battleship-tile"
                   id="t{{i}}{{j}}{{k}}">
-                <fa-icon  [icon]="col.value == 'X' ? ship : water" 
-                          [spin]="col.value !== 'X'" 
-                          [style.color]="col.value == 'X' ? 'black' : 'blue'">
+                <fa-icon  [icon]="!col.used ? question : (col.value == 1 ? ship : water)"
+                          [spin]="!col.used"
+                          [style.color]="col.value == 1 && col.used ? 'black' : 'blue'">
                 </fa-icon>
               </td>
             </tr>

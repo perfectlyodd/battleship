@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { faTint } from '@fortawesome/free-solid-svg-icons';
 import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 import { faShip } from '@fortawesome/free-solid-svg-icons';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 const NUM_PLAYERS: number = 2;
 const BOARD_SIZE: number = 6;
@@ -28,6 +29,7 @@ export class AppComponent {
   water: any = faTint;
   coffee: any = faCoffee;
   ship: any = faShip;
+  question: any = faQuestionCircle;
 
   constructor(
     private toastr: ToastrService,
@@ -94,15 +96,29 @@ export class AppComponent {
     return this;
   }
 
+  logEvent(e: any) : AppComponent {
+    console.log(e);
+    return this;
+  }
+
   fireTorpedo(e: any) : AppComponent {
     this.displayMessage("Firing torpedo!");
-    
-    let id = e.target.id,
+    let element = e.target.closest('td');
+      // This shit cost me like 4 hours' debugging time
+      // Necessary because the target element might be the Font Awesome icon, which does not have an ID.
+    let id = element.id,
       boardId = id.substring(1, 2),
       row = id.substring(2, 3),
       col = id.substring(3, 4);
     this.displayMessage(`id = ${id}, boardId = ${boardId}, row = ${row}, col = ${col}`);
-    let tile = this.boards[boardId].tiles[row][col];
+    let tile = this.boards[boardId] ? this.boards[boardId].tiles[row][col] : null;
+      // Added some debug safety checking here
+    if (!tile) { 
+      console.log("Something's not quite right with that click event: ");
+      console.log(e);
+      return;
+    }
+      // For debugging reasons
     
     if (!this.checkValidHit(boardId, tile)) {
       return;
@@ -119,7 +135,7 @@ export class AppComponent {
 
     this.canPlay = false;
     this.boards[boardId].tiles[row][col].used = true;
-    this.boards[boardId].tiles[row][col].value = "X";
+    //this.boards[boardId].tiles[row][col].value = "X";
 
     this.pusherChannel.trigger('client-fire', {
       player: this.player,
@@ -140,8 +156,8 @@ export class AppComponent {
   }
 
   get validPlayer() : boolean {
-    //return (this.players >= NUM_PLAYERS) && (this.player < NUM_PLAYERS);
-    return true;
+    return (this.players >= NUM_PLAYERS) && (this.player < NUM_PLAYERS);
+    //return true;
   }
 
   checkValidHit(boardId: number, tile: any) : boolean {
@@ -160,7 +176,7 @@ export class AppComponent {
       return false;
     }
 
-    if (tile.value == "X") {
+    if (tile.status != "") {
       this.toastr.error("Conserve your ammo", "Looks like you've been here before");
       return false;
     }
