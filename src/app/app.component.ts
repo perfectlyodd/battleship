@@ -2,6 +2,9 @@ import { Component, ViewContainerRef } from '@angular/core';
 import { BoardService } from './board.service';
 import { Board } from './board';
 import { ToastrService } from 'ngx-toastr';
+import { faTint } from '@fortawesome/free-solid-svg-icons';
+import { faCoffee } from '@fortawesome/free-solid-svg-icons';
+import { faShip } from '@fortawesome/free-solid-svg-icons';
 
 const NUM_PLAYERS: number = 2;
 const BOARD_SIZE: number = 6;
@@ -22,6 +25,9 @@ export class AppComponent {
   gameId: string;
   gameUrl: string = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port: '');
   messageString: string = "";
+  water: any = faTint;
+  coffee: any = faCoffee;
+  ship: any = faShip;
 
   constructor(
     private toastr: ToastrService,
@@ -89,11 +95,14 @@ export class AppComponent {
   }
 
   fireTorpedo(e: any) : AppComponent {
+    this.displayMessage("Firing torpedo!");
+    
     let id = e.target.id,
       boardId = id.substring(1, 2),
       row = id.substring(2, 3),
-      col = id.substring(3, 4), 
-      tile = this.boards[boardId].tiles[row][col];
+      col = id.substring(3, 4);
+    this.displayMessage(`id = ${id}, boardId = ${boardId}, row = ${row}, col = ${col}`);
+    let tile = this.boards[boardId].tiles[row][col];
     
     if (!this.checkValidHit(boardId, tile)) {
       return;
@@ -131,7 +140,8 @@ export class AppComponent {
   }
 
   get validPlayer() : boolean {
-    return (this.players >= NUM_PLAYERS) && (this.player < NUM_PLAYERS);
+    //return (this.players >= NUM_PLAYERS) && (this.player < NUM_PLAYERS);
+    return true;
   }
 
   checkValidHit(boardId: number, tile: any) : boolean {

@@ -31,7 +31,10 @@
                   [class.fail] = "col.status !== 'win'"
                   class="battleship-tile"
                   id="t{{i}}{{j}}{{k}}">
-                {{ col.value == "X" ? "X" : "D" }}
+                <fa-icon  [icon]="col.value == 'X' ? ship : water" 
+                          [spin]="col.value !== 'X'" 
+                          [style.color]="col.value == 'X' ? 'black' : 'blue'">
+                </fa-icon>
               </td>
             </tr>
           </table>
